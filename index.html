@@ -37,21 +37,32 @@
 
     .countdown {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       margin-bottom: 40px;
+    }
+
+    .countdown-item-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 10px;
+      overflow: hidden;
     }
 
     .countdown-item {
       font-size: 42px;
       color: #333333;
-      margin: 0 10px;
+      margin-bottom: 8px;
       font-weight: bold;
+      height: 60px;
+      line-height: 60px;
+      transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
     .countdown-label {
       font-size: 14px;
       color: #999999;
-      margin-top: 8px;
       text-transform: uppercase;
     }
 
@@ -62,16 +73,46 @@
     }
 
     /* Custom Styles */
-    .countdown-item {
-      background-color: #ffffff;
-      padding: 20px;
-      border-radius: 50%;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+    .countdown-item-wrapper {
+      position: relative;
     }
 
-    .countdown-item.rotate {
-      transform: rotateX(360deg);
+    .countdown-item-wrapper:before,
+    .countdown-item-wrapper:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background-color: #ffffff;
+      z-index: 1;
+    }
+
+    .countdown-item-wrapper:before {
+      top: 0;
+    }
+
+    .countdown-item-wrapper:after {
+      bottom: 0;
+    }
+
+    .countdown-item {
+      position: relative;
+      transform-style: preserve-3d;
+      transform-origin: bottom;
+      animation-name: rotate;
+      animation-duration: 1s;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-100%);
+      }
     }
 
     .countdown-label {
@@ -89,9 +130,14 @@
         font-size: 28px;
       }
 
+      .countdown-item-wrapper {
+        margin: 10px 10px;
+      }
+
       .countdown-item {
         font-size: 32px;
-        padding: 16px;
+        height: 50px;
+        line-height: 50px;
       }
 
       .countdown-label {
@@ -109,14 +155,22 @@
     <h1>Route My Call</h1>
     <p>Coming Soon</p>
     <div class="countdown">
-      <div class="countdown-item" id="days">00</div>
-      <div class="countdown-label">Days</div>
-      <div class="countdown-item" id="hours">00</div>
-      <div class="countdown-label">Hours</div>
-      <div class="countdown-item" id="minutes">00</div>
-      <div class="countdown-label">Minutes</div>
-      <div class="countdown-item" id="seconds">00</div>
-      <div class="countdown-label">Seconds</div>
+      <div class="countdown-item-wrapper">
+        <div class="countdown-item" id="days">00</div>
+        <div class="countdown-label">Days</div>
+      </div>
+      <div class="countdown-item-wrapper">
+        <div class="countdown-item" id="hours">00</div>
+        <div class="countdown-label">Hours</div>
+      </div>
+      <div class="countdown-item-wrapper">
+        <div class="countdown-item" id="minutes">00</div>
+        <div class="countdown-label">Minutes</div>
+      </div>
+      <div class="countdown-item-wrapper">
+        <div class="countdown-item" id="seconds">00</div>
+        <div class="countdown-label">Seconds</div>
+      </div>
     </div>
     <p class="phone-number">Call us at: <span id="formatted-phone"></span></p>
   </div>
