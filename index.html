@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,35 +30,19 @@
       margin-bottom: 20px;
     }
 
-    p {
-      font-size: 18px;
-      color: #666666;
-      margin-bottom: 40px;
-    }
-
     .countdown {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      margin-bottom: 40px;
-    }
-
-    .countdown-item-wrapper {
-      display: flex;
-      flex-direction: column;
       align-items: center;
-      margin: 0 10px;
-      overflow: hidden;
+      margin-bottom: 40px;
     }
 
     .countdown-item {
-      font-size: 42px;
+      font-size: 96px;
       color: #333333;
-      margin-bottom: 8px;
       font-weight: bold;
-      height: 60px;
-      line-height: 60px;
-      transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+      position: relative;
+      height: 1.3em;
     }
 
     .countdown-label {
@@ -72,72 +57,30 @@
       margin-bottom: 40px;
     }
 
-    /* Custom Styles */
-    .countdown-item-wrapper {
-      position: relative;
+    .scroll {
+      overflow: hidden;
+      height: 1.3em;
+      line-height: 1.3em;
+      animation: scroll 1s infinite;
     }
 
-    .countdown-item-wrapper:before,
-    .countdown-item-wrapper:after {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 30px;
-      background-color: #ffffff;
-      z-index: 1;
-    }
-
-    .countdown-item-wrapper:before {
-      top: 0;
-    }
-
-    .countdown-item-wrapper:after {
-      bottom: 0;
-    }
-
-    .countdown-item {
-      position: relative;
-      transform-style: preserve-3d;
-      transform-origin: bottom;
-      animation-name: rotate;
-      animation-duration: 1s;
-      animation-timing-function: ease-in-out;
-      animation-fill-mode: forwards;
-    }
-
-    @keyframes rotate {
+    @keyframes scroll {
       0% {
         transform: translateY(0);
       }
+
       100% {
-        transform: translateY(-100%);
+        transform: translateY(-130%);
       }
     }
 
-    .countdown-label {
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-    .phone-number {
-      font-weight: bold;
-    }
-
-    /* Media Query for Responsive Design */
     @media (max-width: 480px) {
       h1 {
         font-size: 28px;
       }
 
-      .countdown-item-wrapper {
-        margin: 10px 10px;
-      }
-
       .countdown-item {
-        font-size: 32px;
-        height: 50px;
-        line-height: 50px;
+        font-size: 64px;
       }
 
       .countdown-label {
@@ -150,36 +93,35 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Route My Call</h1>
-    <p>Coming Soon</p>
     <div class="countdown">
-      <div class="countdown-item-wrapper">
-        <div class="countdown-item" id="days">00</div>
-        <div class="countdown-label">Days</div>
+      <div class="countdown-item">
+        <div id="days" class="scroll"></div>
       </div>
-      <div class="countdown-item-wrapper">
-        <div class="countdown-item" id="hours">00</div>
-        <div class="countdown-label">Hours</div>
+      <div class="countdown-label">Days</div>
+      <div class="countdown-item">
+        <div id="hours" class="scroll"></div>
       </div>
-      <div class="countdown-item-wrapper">
-        <div class="countdown-item" id="minutes">00</div>
-        <div class="countdown-label">Minutes</div>
+      <div class="countdown-label">Hours</div>
+      <div class="countdown-item">
+        <div id="minutes" class="scroll"></div>
       </div>
-      <div class="countdown-item-wrapper">
-        <div class="countdown-item" id="seconds">00</div>
-        <div class="countdown-label">Seconds</div>
+      <div class="countdown-label">Minutes</div>
+      <div class="countdown-item">
+        <div id="seconds" class="scroll"></div>
       </div>
+      <div class="countdown-label">Seconds</div>
     </div>
     <p class="phone-number">Call us at: <span id="formatted-phone"></span></p>
   </div>
 
   <script>
-    // JavaScript code for the countdown
     const countdownDate = new Date("July 1, 2023 00:00:00").getTime();
 
-    const countdown = setInterval(() => {
+    function updateCountdown() {
       const now = new Date().getTime();
       const distance = countdownDate - now;
 
@@ -188,35 +130,44 @@
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      updateCountdownValue("days", days);
-      updateCountdownValue("hours", hours);
-      updateCountdownValue("minutes", minutes);
-      updateCountdownValue("seconds", seconds);
+      updateNumber("days", days);
+      updateNumber("hours", hours);
+      updateNumber("minutes", minutes);
+      updateNumber("seconds", seconds);
+    }
 
-      if (distance < 0) {
-        clearInterval(countdown);
-        document.getElementById("days").textContent = "00";
-        document.getElementById("hours").textContent = "00";
-        document.getElementById("minutes").textContent = "00";
-        document.getElementById("seconds").textContent = "00";
-      }
-    }, 1000);
-
-    function updateCountdownValue(id, value) {
+    function updateNumber(id, newValue) {
       const element = document.getElementById(id);
-      if (element.textContent !== value.toString().padStart(2, "0")) {
-        element.classList.add("rotate");
-        setTimeout(() => {
-          element.textContent = value.toString().padStart(2, "0");
-          element.classList.remove("rotate");
-        }, 1000);
+      const currentValue = Number(element.textContent);
+
+      if (currentValue !== newValue) {
+        const diff = Math.abs(currentValue - newValue);
+        const direction = currentValue < newValue ? 1 : -1;
+
+        element.classList.remove("scroll");
+        element.textContent = newValue;
+
+        if (diff >= 2) {
+          const nextElement = document.createElement("div");
+          nextElement.classList.add("scroll");
+          nextElement.textContent = newValue;
+          element.appendChild(nextElement);
+
+          setTimeout(() => {
+            element.removeChild(element.firstChild);
+            element.classList.add("scroll");
+          }, 100);
+        }
       }
     }
 
-    // JavaScript code to format the phone number
     const phoneNumber = "5304301122";
     const formattedPhoneNumber = `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6)}`;
     document.getElementById("formatted-phone").textContent = formattedPhoneNumber;
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
 </body>
+
 </html>
