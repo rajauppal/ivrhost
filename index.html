@@ -43,6 +43,7 @@
       font-weight: bold;
       position: relative;
       height: 1.3em;
+      overflow: hidden;
     }
 
     .countdown-label {
@@ -58,9 +59,6 @@
     }
 
     .scroll {
-      overflow: hidden;
-      height: 1.3em;
-      line-height: 1.3em;
       animation: scroll 1s infinite;
     }
 
@@ -70,7 +68,7 @@
       }
 
       100% {
-        transform: translateY(-130%);
+        transform: translateY(-100%);
       }
     }
 
@@ -99,19 +97,31 @@
     <h1>Route My Call</h1>
     <div class="countdown">
       <div class="countdown-item">
-        <div id="days" class="scroll"></div>
+        <div id="days">
+          <span></span>
+          <span></span>
+        </div>
       </div>
       <div class="countdown-label">Days</div>
       <div class="countdown-item">
-        <div id="hours" class="scroll"></div>
+        <div id="hours">
+          <span></span>
+          <span></span>
+        </div>
       </div>
       <div class="countdown-label">Hours</div>
       <div class="countdown-item">
-        <div id="minutes" class="scroll"></div>
+        <div id="minutes">
+          <span></span>
+          <span></span>
+        </div>
       </div>
       <div class="countdown-label">Minutes</div>
       <div class="countdown-item">
-        <div id="seconds" class="scroll"></div>
+        <div id="seconds">
+          <span></span>
+          <span></span>
+        </div>
       </div>
       <div class="countdown-label">Seconds</div>
     </div>
@@ -138,27 +148,31 @@
 
     function updateNumber(id, newValue) {
       const element = document.getElementById(id);
-      const currentValue = Number(element.textContent);
+      const currentValues = Array.from(element.getElementsByTagName("span")).map(span => Number(span.textContent));
 
-      if (currentValue !== newValue) {
-        const diff = Math.abs(currentValue - newValue);
-        const direction = currentValue < newValue ? 1 : -1;
-
-        element.classList.remove("scroll");
-        element.textContent = newValue;
-
-        if (diff >= 2) {
-          const nextElement = document.createElement("div");
-          nextElement.classList.add("scroll");
-          nextElement.textContent = newValue;
-          element.appendChild(nextElement);
-
-          setTimeout(() => {
-            element.removeChild(element.firstChild);
-            element.classList.add("scroll");
-          }, 100);
-        }
+      if (currentValues.length === 0) {
+        element.innerHTML = `<span>${newValue}</span><span>${newValue}</span>`;
+      } else if (currentValues[0] !== newValue) {
+        const nextValue = newValue + 1;
+        element.innerHTML = `<span>${currentValues[0]}</span><span>${nextValue}</span>`;
       }
+
+      const spans = element.getElementsByTagName("span");
+      const totalHeight = spans[0].offsetHeight + spans[1].offsetHeight;
+      const animationDuration = totalHeight * 0.05;
+
+      spans[0].style.transition = `transform ${animationDuration}s ease-in-out`;
+      spans[1].style.transition = `transform ${animationDuration}s ease-in-out`;
+
+      requestAnimationFrame(() => {
+        spans[0].style.transform = `translateY(-${spans[0].offsetHeight}px)`;
+        spans[1].style.transform = `translateY(-${spans[0].offsetHeight}px)`;
+      });
+
+      setTimeout(() => {
+        spans[0].remove();
+        spans[1].style.transform = "translateY(0)";
+      }, animationDuration * 1000);
     }
 
     const phoneNumber = "5304301122";
