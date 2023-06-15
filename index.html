@@ -3,7 +3,7 @@
 <head>
   <title>Route My Call</title>
   <style>
-    /* CSS Styles for Countdown Timer */
+    /* CSS Styles for Route My Call */
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f0f0;
@@ -123,13 +123,16 @@
       </div>
     </div>
 
-    <div class="phone-number">Contact us: (530) 430-1122</div>
+    <div class="phone-number">(530) 430-1122</div>
   </div>
 
   <script>
-    // Countdown Timer
+    // Set the start date of the countdown (July 1, current year)
+    var countdownDate = new Date().getFullYear() + "-07-01T00:00:00";
+    countdownDate = new Date(countdownDate).getTime();
+
     function updateTimer() {
-      var countdownDate = new Date("2023-06-31T23:59:59").getTime();
+      // Calculate the remaining time
       var currentTime = new Date().getTime();
       var remainingTime = countdownDate - currentTime;
 
