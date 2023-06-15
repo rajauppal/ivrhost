@@ -1,111 +1,201 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Slot Machine UI</title>
+  <title>Route My Call - Coming Soon</title>
   <style>
+    /* CSS Styles for Countdown Timer */
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f5f5f5;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
       margin: 0;
       padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
     }
 
-    .slot-machine {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 300px;
-      height: 400px;
-      border: 2px solid #333333;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .slot-wheel {
-      width: 70px;
-      height: 400px;
-      background-color: #ffffff;
+    .container {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      border-right: 1px solid #333333;
+      height: 100vh;
+      text-align: center;
     }
 
-    .slot-number {
-      font-size: 36px;
-      color: #333333;
-      margin: 0;
-      padding: 0;
-      line-height: 1;
-      transition: transform 0.5s ease-in-out;
+    h1 {
+      font-family: "Arial Black", sans-serif;
+      font-size: 48px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+    }
+    
+    .card-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .card {
+      position: relative;
+      width: 100px;
+      height: 150px;
+      margin: 0 10px;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      perspective: 1000px;
       transform-style: preserve-3d;
-      transform-origin: center center;
+      transition: transform 0.5s;
+    }
+    
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+    
+    .card-front,
+    .card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 48px;
+      font-weight: bold;
+      color: #333;
+      border-radius: 10px;
+    }
+    
+    .card-back {
+      transform: rotateY(180deg);
+    }
+    
+    .label {
+      font-size: 18px;
+      color: #333;
+      margin-top: 10px;
+    }
+
+    .phone-number {
+      margin-top: 30px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    @media only screen and (max-width: 768px) {
+      .card {
+        width: 80px;
+        height: 120px;
+      }
+      
+      .card-front,
+      .card-back {
+        font-size: 36px;
+      }
+      
+      .label {
+        font-size: 16px;
+      }
+
+      .phone-number {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
-
 <body>
-  <div class="slot-machine">
-    <div class="slot-wheel">
-      <h3 class="slot-number">0</h3>
-      <h3 class="slot-number">1</h3>
-      <h3 class="slot-number">2</h3>
-      <h3 class="slot-number">3</h3>
-      <!-- Add more numbers if needed -->
+  <div class="container">
+    <h1>Route My Call</h1>
+    <h2>Coming Soon</h2>
+
+    <div class="countdown">
+      <div class="card-container">
+        <div class="card">
+          <div class="card-front"></div>
+          <div class="card-back"></div>
+        </div>
+        <div class="label">Days</div>
+      </div>
+      <div class="card-container">
+        <div class="card">
+          <div class="card-front"></div>
+          <div class="card-back"></div>
+        </div>
+        <div class="label">Hours</div>
+      </div>
+      <div class="card-container">
+        <div class="card">
+          <div class="card-front"></div>
+          <div class="card-back"></div>
+        </div>
+        <div class="label">Minutes</div>
+      </div>
+      <div class="card-container">
+        <div class="card">
+          <div class="card-front"></div>
+          <div class="card-back"></div>
+        </div>
+        <div class="label">Seconds</div>
+      </div>
     </div>
-    <div class="slot-wheel">
-      <h3 class="slot-number">0</h3>
-      <h3 class="slot-number">1</h3>
-      <h3 class="slot-number">2</h3>
-      <h3 class="slot-number">3</h3>
-      <!-- Add more numbers if needed -->
-    </div>
-    <div class="slot-wheel">
-      <h3 class="slot-number">0</h3>
-      <h3 class="slot-number">1</h3>
-      <h3 class="slot-number">2</h3>
-      <h3 class="slot-number">3</h3>
-      <!-- Add more numbers if needed -->
-    </div>
-    <div class="slot-wheel">
-      <h3 class="slot-number">0</h3>
-      <h3 class="slot-number">1</h3>
-      <h3 class="slot-number">2</h3>
-      <h3 class="slot-number">3</h3>
-      <!-- Add more numbers if needed -->
-    </div>
+
+    <div class="phone-number">Contact us: 530-430-1122</div>
   </div>
 
   <script>
-    const slotWheels = document.querySelectorAll('.slot-wheel');
+    // JavaScript code for Countdown Timer
+    // Modify the following code to set the target date and time
+    var targetDate = new Date("2023-07-01T00:00:00");
 
-    function startSpinning() {
-      slotWheels.forEach(wheel => {
-        const randomIndex = Math.floor(Math.random() * wheel.children.length);
-        const offset = randomIndex * -100;
-        wheel.style.transform = `translateY(${offset}px)`;
-      });
+    function getTimeRemaining(endTime) {
+      var totalSeconds = Math.floor((Date.parse(endTime) - Date.parse(new Date())) / 1000);
+      var days = Math.floor(totalSeconds / (60 * 60 * 24));
+      var hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+      var minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+      var seconds = Math.floor(totalSeconds % 60);
+      return {
+        total: totalSeconds,
+        days: days,
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds
+      };
     }
 
-    function stopSpinning() {
-      slotWheels.forEach(wheel => {
-        wheel.style.transform = '';
-      });
+    function startTimer() {
+      var cards = document.querySelectorAll(".card");
+      var labels = document.querySelectorAll(".label");
+      
+      var timerInterval = setInterval(updateTimer, 1000);
+      
+      function updateTimer() {
+        var time = getTimeRemaining(targetDate);
+        cards[0].querySelector(".card-front").textContent = time.days;
+        cards[1].querySelector(".card-front").textContent = ("0" + time.hours).slice(-2);
+        cards[2].querySelector(".card-front").textContent = ("0" + time.minutes).slice(-2);
+        cards[3].querySelector(".card-front").textContent = ("0" + time.seconds).slice(-2);
+        
+        if (time.total <= 0) {
+          clearInterval(timerInterval);
+        }
+      }
     }
 
-    // Example usage: Call startSpinning() to start the spinning effect and stopSpinning() to stop it after some time.
-    // You can modify the logic as per your requirements.
-    // Remember to add event listeners or triggers for starting and stopping the spinning effect.
+    startTimer();
   </script>
 </body>
-
 </html>
