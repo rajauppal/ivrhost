@@ -45,12 +45,28 @@
       font-size: 24px;
       color: #333333;
       margin: 0 10px;
+      animation: rotate 1s infinite;
+    }
+    
+    .countdown-label {
+      font-size: 14px;
+      color: #999999;
+      margin-top: 8px;
     }
     
     .phone-number {
       font-size: 20px;
       color: #333333;
       margin-bottom: 40px;
+    }
+    
+    @keyframes rotate {
+      from {
+        transform: rotateX(0deg);
+      }
+      to {
+        transform: rotateX(360deg);
+      }
     }
   </style>
 </head>
@@ -60,15 +76,20 @@
     <p>Coming Soon</p>
     <div class="countdown">
       <div class="countdown-item" id="days">00</div>
+      <div class="countdown-label">Days</div>
       <div class="countdown-item" id="hours">00</div>
+      <div class="countdown-label">Hours</div>
       <div class="countdown-item" id="minutes">00</div>
+      <div class="countdown-label">Minutes</div>
+      <div class="countdown-item" id="seconds">00</div>
+      <div class="countdown-label">Seconds</div>
     </div>
-    <p class="phone-number">Call us at: (530) 430-1122</p>
+    <p class="phone-number">Call us at: <span id="formatted-phone"></span></p>
   </div>
 
   <script>
     // JavaScript code for the countdown
-    const countdownDate = new Date("2023-07-01").getTime();
+    const countdownDate = new Date("July 1, 2023 00:00:00").getTime();
 
     const countdown = setInterval(() => {
       const now = new Date().getTime();
@@ -77,18 +98,26 @@
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       document.getElementById("days").textContent = days.toString().padStart(2, "0");
       document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
       document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
+      document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
 
       if (distance < 0) {
         clearInterval(countdown);
         document.getElementById("days").textContent = "00";
         document.getElementById("hours").textContent = "00";
         document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
       }
     }, 1000);
+
+    // JavaScript code to format the phone number
+    const phoneNumber = "5304301122";
+    const formattedPhoneNumber = `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6)}`;
+    document.getElementById("formatted-phone").textContent = formattedPhoneNumber;
   </script>
 </body>
 </html>
