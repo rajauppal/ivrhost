@@ -50,6 +50,7 @@
       font-size: 14px;
       color: #999999;
       text-transform: uppercase;
+      margin-top: 10px;
     }
 
     .phone-number {
@@ -97,33 +98,29 @@
     <h1>Route My Call</h1>
     <div class="countdown">
       <div class="countdown-item">
-        <div id="days">
-          <span></span>
+        <div id="days" class="scroll">
           <span></span>
         </div>
+        <div class="countdown-label">Days</div>
       </div>
-      <div class="countdown-label">Days</div>
       <div class="countdown-item">
-        <div id="hours">
-          <span></span>
+        <div id="hours" class="scroll">
           <span></span>
         </div>
+        <div class="countdown-label">Hours</div>
       </div>
-      <div class="countdown-label">Hours</div>
       <div class="countdown-item">
-        <div id="minutes">
-          <span></span>
+        <div id="minutes" class="scroll">
           <span></span>
         </div>
+        <div class="countdown-label">Minutes</div>
       </div>
-      <div class="countdown-label">Minutes</div>
       <div class="countdown-item">
-        <div id="seconds">
-          <span></span>
+        <div id="seconds" class="scroll">
           <span></span>
         </div>
+        <div class="countdown-label">Seconds</div>
       </div>
-      <div class="countdown-label">Seconds</div>
     </div>
     <p class="phone-number">Call us at: <span id="formatted-phone"></span></p>
   </div>
@@ -148,30 +145,29 @@
 
     function updateNumber(id, newValue) {
       const element = document.getElementById(id);
-      const currentValues = Array.from(element.getElementsByTagName("span")).map(span => Number(span.textContent));
+      const span = element.getElementsByTagName("span")[0];
 
-      if (currentValues.length === 0) {
-        element.innerHTML = `<span>${newValue}</span><span>${newValue}</span>`;
-      } else if (currentValues[0] !== newValue) {
+      if (!span) {
+        element.innerHTML = `<span>${newValue}</span>`;
+      } else if (Number(span.textContent) !== newValue) {
         const nextValue = newValue + 1;
-        element.innerHTML = `<span>${currentValues[0]}</span><span>${nextValue}</span>`;
+        element.innerHTML = `<span>${span.textContent}</span><span>${nextValue}</span>`;
+        element.classList.add("scroll");
       }
 
       const spans = element.getElementsByTagName("span");
-      const totalHeight = spans[0].offsetHeight + spans[1].offsetHeight;
+      const totalHeight = spans[0].offsetHeight;
       const animationDuration = totalHeight * 0.05;
 
       spans[0].style.transition = `transform ${animationDuration}s ease-in-out`;
-      spans[1].style.transition = `transform ${animationDuration}s ease-in-out`;
 
       requestAnimationFrame(() => {
         spans[0].style.transform = `translateY(-${spans[0].offsetHeight}px)`;
-        spans[1].style.transform = `translateY(-${spans[0].offsetHeight}px)`;
       });
 
       setTimeout(() => {
         spans[0].remove();
-        spans[1].style.transform = "translateY(0)";
+        element.classList.remove("scroll");
       }, animationDuration * 1000);
     }
 
