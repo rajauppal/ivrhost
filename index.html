@@ -56,7 +56,7 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       perspective: 1000px;
       transform-style: preserve-3d;
-      transition: transform 0.5s;
+      transition: transform 1s;
     }
 
     .card.flipped {
@@ -158,63 +158,42 @@
 
   <script>
     // JavaScript code for Countdown Timer
-    // Modify the following code to set the target date and time
-    var targetDate = new Date("2023-07-01T00:00:00");
+    function updateCountdown() {
+      const now = new Date();
+      const futureDate = new Date("2023-07-01T00:00:00");
+      const timeDifference = futureDate - now;
 
-    function getTimeRemaining(endTime) {
-      var totalSeconds = Math.floor((Date.parse(endTime) - Date.parse(new Date())) / 1000);
-      var days = Math.floor(totalSeconds / (60 * 60 * 24));
-      var hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
-      var minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
-      var seconds = Math.floor(totalSeconds % 60);
-      return {
-        total: totalSeconds,
-        days: days,
-        hours: hours,
-        minutes: minutes,
-        seconds: seconds
-      };
-    }
+      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-    function startTimer() {
-      var cards = document.querySelectorAll(".card");
-      var labels = document.querySelectorAll(".label");
+      const timeValues = [days, hours, minutes, seconds];
+      const cardContainers = document.querySelectorAll(".card-container");
 
-      var timerInterval = setInterval(updateTimer, 1000);
+      cardContainers.forEach((container, index) => {
+        const card = container.querySelector(".card");
+        const front = card.querySelector(".card-front");
+        const back = card.querySelector(".card-back");
 
-      function updateTimer() {
-        var time = getTimeRemaining(targetDate);
-        var prevTime = {
-          days: parseInt(cards[0].querySelector(".card-front").textContent),
-          hours: parseInt(cards[1].querySelector(".card-front").textContent),
-          minutes: parseInt(cards[2].querySelector(".card-front").textContent),
-          seconds: parseInt(cards[3].querySelector(".card-front").textContent)
-        };
-
-        if (time.days !== prevTime.days) {
-          flipCard(cards[0], time.days);
-        }
-        if (time.hours !== prevTime.hours) {
-          flipCard(cards[1], time.hours);
-        }
-        if (time.minutes !== prevTime.minutes) {
-          flipCard(cards[2], time.minutes);
-        }
-        if (time.seconds !== prevTime.seconds) {
-          flipCard(cards[3], time.seconds);
-        }
-      }
-
-      function flipCard(card, value) {
-        card.classList.add("flipped");
-        setTimeout(function() {
-          card.querySelector(".card-front").textContent = value;
+        if (front.textContent !== timeValues[index].toString()) {
           card.classList.remove("flipped");
-        }, 500);
-      }
+
+          setTimeout(() => {
+            front.textContent = timeValues[index];
+            back.textContent = timeValues[index];
+            card.classList.add("flipped");
+          }, 500);
+        }
+      });
     }
 
-    startTimer();
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
 </body>
 </html>
