@@ -67,7 +67,7 @@
       padding: 20px;
       border-radius: 50%;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.5s ease-in-out;
+      transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
     .countdown-item.rotate {
@@ -155,7 +155,7 @@
         setTimeout(() => {
           element.textContent = value.toString().padStart(2, "0");
           element.classList.remove("rotate");
-        }, 500);
+        }, 1000);
       }
     }
 
