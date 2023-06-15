@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Route My Call - Coming Soon</title>
+  <title>Slot Machine UI</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,165 +18,93 @@
       text-align: center;
     }
 
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    h1 {
-      font-size: 36px;
-      color: #333333;
-      margin-bottom: 20px;
-    }
-
-    .countdown {
+    .slot-machine {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 40px;
-    }
-
-    .countdown-item {
-      font-size: 96px;
-      color: #333333;
-      font-weight: bold;
-      position: relative;
-      height: 1.3em;
+      width: 300px;
+      height: 400px;
+      border: 2px solid #333333;
+      border-radius: 10px;
       overflow: hidden;
     }
 
-    .countdown-label {
-      font-size: 14px;
-      color: #999999;
-      text-transform: uppercase;
-      margin-top: 10px;
+    .slot-wheel {
+      width: 70px;
+      height: 400px;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid #333333;
     }
 
-    .phone-number {
-      font-size: 20px;
+    .slot-number {
+      font-size: 36px;
       color: #333333;
-      margin-bottom: 40px;
-    }
-
-    .scroll {
-      animation: scroll 1s infinite;
-    }
-
-    @keyframes scroll {
-      0% {
-        transform: translateY(0);
-      }
-
-      100% {
-        transform: translateY(-100%);
-      }
-    }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 28px;
-      }
-
-      .countdown-item {
-        font-size: 64px;
-      }
-
-      .countdown-label {
-        font-size: 12px;
-      }
-
-      .phone-number {
-        font-size: 16px;
-      }
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+      transition: transform 0.5s ease-in-out;
+      transform-style: preserve-3d;
+      transform-origin: center center;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>Route My Call</h1>
-    <div class="countdown">
-      <div class="countdown-item">
-        <div id="days" class="scroll">
-          <span></span>
-        </div>
-        <div class="countdown-label">Days</div>
-      </div>
-      <div class="countdown-item">
-        <div id="hours" class="scroll">
-          <span></span>
-        </div>
-        <div class="countdown-label">Hours</div>
-      </div>
-      <div class="countdown-item">
-        <div id="minutes" class="scroll">
-          <span></span>
-        </div>
-        <div class="countdown-label">Minutes</div>
-      </div>
-      <div class="countdown-item">
-        <div id="seconds" class="scroll">
-          <span></span>
-        </div>
-        <div class="countdown-label">Seconds</div>
-      </div>
+  <div class="slot-machine">
+    <div class="slot-wheel">
+      <h3 class="slot-number">0</h3>
+      <h3 class="slot-number">1</h3>
+      <h3 class="slot-number">2</h3>
+      <h3 class="slot-number">3</h3>
+      <!-- Add more numbers if needed -->
     </div>
-    <p class="phone-number">Call us at: <span id="formatted-phone"></span></p>
+    <div class="slot-wheel">
+      <h3 class="slot-number">0</h3>
+      <h3 class="slot-number">1</h3>
+      <h3 class="slot-number">2</h3>
+      <h3 class="slot-number">3</h3>
+      <!-- Add more numbers if needed -->
+    </div>
+    <div class="slot-wheel">
+      <h3 class="slot-number">0</h3>
+      <h3 class="slot-number">1</h3>
+      <h3 class="slot-number">2</h3>
+      <h3 class="slot-number">3</h3>
+      <!-- Add more numbers if needed -->
+    </div>
+    <div class="slot-wheel">
+      <h3 class="slot-number">0</h3>
+      <h3 class="slot-number">1</h3>
+      <h3 class="slot-number">2</h3>
+      <h3 class="slot-number">3</h3>
+      <!-- Add more numbers if needed -->
+    </div>
   </div>
 
   <script>
-    const countdownDate = new Date("July 1, 2023 00:00:00").getTime();
+    const slotWheels = document.querySelectorAll('.slot-wheel');
 
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      updateNumber("days", days);
-      updateNumber("hours", hours);
-      updateNumber("minutes", minutes);
-      updateNumber("seconds", seconds);
-    }
-
-    function updateNumber(id, newValue) {
-      const element = document.getElementById(id);
-      const span = element.getElementsByTagName("span")[0];
-
-      if (!span) {
-        element.innerHTML = `<span>${newValue}</span>`;
-      } else if (Number(span.textContent) !== newValue) {
-        const nextValue = newValue + 1;
-        element.innerHTML = `<span>${span.textContent}</span><span>${nextValue}</span>`;
-        element.classList.add("scroll");
-      }
-
-      const spans = element.getElementsByTagName("span");
-      const totalHeight = spans[0].offsetHeight;
-      const animationDuration = totalHeight * 0.05;
-
-      spans[0].style.transition = `transform ${animationDuration}s ease-in-out`;
-
-      requestAnimationFrame(() => {
-        spans[0].style.transform = `translateY(-${spans[0].offsetHeight}px)`;
+    function startSpinning() {
+      slotWheels.forEach(wheel => {
+        const randomIndex = Math.floor(Math.random() * wheel.children.length);
+        const offset = randomIndex * -100;
+        wheel.style.transform = `translateY(${offset}px)`;
       });
-
-      setTimeout(() => {
-        spans[0].remove();
-        element.classList.remove("scroll");
-      }, animationDuration * 1000);
     }
 
-    const phoneNumber = "5304301122";
-    const formattedPhoneNumber = `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6)}`;
-    document.getElementById("formatted-phone").textContent = formattedPhoneNumber;
+    function stopSpinning() {
+      slotWheels.forEach(wheel => {
+        wheel.style.transform = '';
+      });
+    }
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+    // Example usage: Call startSpinning() to start the spinning effect and stopSpinning() to stop it after some time.
+    // You can modify the logic as per your requirements.
+    // Remember to add event listeners or triggers for starting and stopping the spinning effect.
   </script>
 </body>
 
