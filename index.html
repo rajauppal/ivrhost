@@ -3,135 +3,118 @@
 <head>
   <title>Route My Call - Coming Soon</title>
   <style>
-    
     /* CSS Styles for Countdown Timer */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  margin: 0;
-  padding: 0;
-}
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  text-align: center;
-}
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
 
-h1 {
-  font-family: "Arial Black", sans-serif;
-  font-size: 36px;
-  margin-bottom: 10px;
-  color: #333;
-}
+    h1 {
+      font-family: "Arial Black", sans-serif;
+      font-size: 48px;
+      margin-bottom: 10px;
+      color: #333;
+    }
 
-h2 {
-  font-size: 20px;
-  color: #333;
-}
+    h2 {
+      font-size: 24px;
+      color: #333;
+    }
 
-.countdown {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin-top: 30px;
-}
+    .countdown {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+    }
 
-.card-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-  width: 100px;
-  height: 150px;
-}
+    .card-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-.card {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  margin: 0 10px;
-  border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  perspective: 1000px;
-  transform-style: preserve-3d;
-  transition: transform 0.5s;
-}
+    .card {
+      position: relative;
+      width: 100px;
+      height: 150px;
+      margin: 0 10px;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+    }
 
-.card.flipped {
-  transform: rotateY(180deg);
-}
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
 
-.card-front,
-.card-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 48px;
-  font-weight: bold;
-  color: #333;
-  border-radius: 10px;
-}
+    .card-front,
+    .card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 48px;
+      font-weight: bold;
+      color: #333;
+      border-radius: 10px;
+    }
 
-.card-back {
-  transform: rotateY(180deg);
-}
+    .card-back {
+      transform: rotateY(180deg);
+    }
 
-.label {
-  font-size: 16px;
-  color: #333;
-  margin-top: 5px;
-}
+    .label {
+      font-size: 18px;
+      color: #333;
+      margin-top: 10px;
+    }
 
-.phone-number {
-  margin-top: 20px;
-  font-size: 18px;
-  color: #333;
-}
+    .phone-number {
+      margin-top: 30px;
+      font-size: 24px;
+      color: #333;
+    }
 
-@media only screen and (max-width: 768px) {
-  h1 {
-    font-size: 24px;
-  }
+    @media only screen and (max-width: 768px) {
+      .card {
+        width: 80px;
+        height: 120px;
+      }
 
-  h2 {
-    font-size: 16px;
-  }
+      .card-front,
+      .card-back {
+        font-size: 36px;
+      }
 
-  .countdown {
-    margin-top: 20px;
-  }
+      .label {
+        font-size: 16px;
+      }
 
-  .card-container {
-    width: 80px;
-    height: 120px;
-  }
-
-  .card-front,
-  .card-back {
-    font-size: 36px;
-  }
-
-  .label {
-    font-size: 14px;
-  }
-
-  .phone-number {
-    font-size: 16px;
-  }
-}
-
+      .phone-number {
+        font-size: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -194,68 +177,44 @@ h2 {
     }
 
     function startTimer() {
-  var cards = document.querySelectorAll(".card");
-  var labels = document.querySelectorAll(".label");
+      var cards = document.querySelectorAll(".card");
+      var labels = document.querySelectorAll(".label");
 
-  var timerInterval = setInterval(updateTimer, 1000);
+      var timerInterval = setInterval(updateTimer, 1000);
 
-  var currentSeconds = null;
-  var currentMinutes = null;
-  var currentHours = null;
+      function updateTimer() {
+        var time = getTimeRemaining(targetDate);
+        var prevTime = {
+          days: parseInt(cards[0].querySelector(".card-front").textContent),
+          hours: parseInt(cards[1].querySelector(".card-front").textContent),
+          minutes: parseInt(cards[2].querySelector(".card-front").textContent),
+          seconds: parseInt(cards[3].querySelector(".card-front").textContent)
+        };
 
-  function updateTimer() {
-    var time = getTimeRemaining(targetDate);
+        if (time.days !== prevTime.days) {
+          flipCard(cards[0], time.days);
+        }
+        if (time.hours !== prevTime.hours) {
+          flipCard(cards[1], time.hours);
+        }
+        if (time.minutes !== prevTime.minutes) {
+          flipCard(cards[2], time.minutes);
+        }
+        if (time.seconds !== prevTime.seconds) {
+          flipCard(cards[3], time.seconds);
+        }
+      }
 
-    // Check if the seconds have changed
-    if (currentSeconds !== time.seconds) {
-      // Update the back side of the changing card
-      cards[3].querySelector(".card-back").textContent = ("0" + time.seconds).slice(-2);
-
-      // Flip the changing card
-      cards[3].classList.toggle("flipped");
-      currentSeconds = time.seconds;
-    }
-
-    // Check if the minutes have changed
-    if (currentMinutes !== time.minutes) {
-      // Update the back side of the card
-      cards[2].querySelector(".card-back").textContent = ("0" + time.minutes).slice(-2);
-
-      // Flip the card if the number has changed
-      if (cards[2].querySelector(".card-front").textContent !== ("0" + time.minutes).slice(-2)) {
-        cards[2].classList.toggle("flipped");
-        currentMinutes = time.minutes;
+      function flipCard(card, value) {
+        card.classList.add("flipped");
+        setTimeout(function() {
+          card.querySelector(".card-front").textContent = value;
+          card.classList.remove("flipped");
+        }, 500);
       }
     }
 
-    // Check if the hours have changed
-    if (currentHours !== time.hours) {
-      // Update the back side of the card
-      cards[1].querySelector(".card-back").textContent = ("0" + time.hours).slice(-2);
-
-      // Flip the card if the number has changed
-      if (cards[1].querySelector(".card-front").textContent !== ("0" + time.hours).slice(-2)) {
-        cards[1].classList.toggle("flipped");
-        currentHours = time.hours;
-      }
-    }
-
-    // Update the days card and label
-    cards[0].querySelector(".card-front").textContent = time.days;
-    labels[0].textContent = "Days";
-
-    // Update the seconds card and label
-    cards[3].querySelector(".card-front").textContent = ("0" + time.seconds).slice(-2);
-    labels[3].textContent = "Seconds";
-
-    if (time.total <= 0) {
-      clearInterval(timerInterval);
-    }
-  }
-}
-
-startTimer();
-
+    startTimer();
   </script>
 </body>
 </html>
